@@ -1,6 +1,7 @@
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from './tasks-reducer';
 import {TasksStateType} from '../App';
 import {addTodolistAC, removeTodolistAC} from './todolists-reducer';
+import {TasksPrioritiesEnum, TasksStatusesEnum} from "../stories/todolists-api";
 
 let startState: TasksStateType
 
@@ -8,14 +9,64 @@ let startState: TasksStateType
 beforeEach(() => {
     startState = {
         "todolistId1": [
-            {id: "1", title: "CSS", isDone: false},
-            {id: "2", title: "JS", isDone: true},
-            {id: "3", title: "React", isDone: false}
+            {id: "1", title: "CSS",  status: TasksStatusesEnum.InProgress,
+                todoListId:  "todolistId1",
+                startDate: '',
+                deadline: '',
+                order: 1,
+                addedDate: '',
+                priority: TasksPrioritiesEnum.Low,
+                description: '',
+                completed: false},
+            {id: "2", title: "JS", status: TasksStatusesEnum.Complete,
+                todoListId:  "todolistId1",
+                startDate: '',
+                deadline: '',
+                order: 1,
+                addedDate: '',
+                priority: TasksPrioritiesEnum.Low,
+                description: '',
+                completed: false},
+            {id: "3", title: "React", status: TasksStatusesEnum.InProgress,
+                todoListId:  "todolistId1",
+                startDate: '',
+                deadline: '',
+                order: 1,
+                addedDate: '',
+                priority: TasksPrioritiesEnum.Low,
+                description: '',
+                completed: false}
+
         ],
         "todolistId2": [
-            {id: "1", title: "bread", isDone: false},
-            {id: "2", title: "milk", isDone: true},
-            {id: "3", title: "tea", isDone: false}
+            {id: "1", title: "bread",
+                status: TasksStatusesEnum.InProgress,
+                todoListId:  "todolistId2",
+                startDate: '',
+                deadline: '',
+                order: 1,
+                addedDate: '',
+                priority: TasksPrioritiesEnum.Low,
+                description: '',
+                completed: false},
+            {id: "2", title: "milk", status: TasksStatusesEnum.Complete,
+                todoListId:  "todolistId2",
+                startDate: '',
+                deadline: '',
+                order: 1,
+                addedDate: '',
+                priority: TasksPrioritiesEnum.Low,
+                description: '',
+                completed: false},
+            {id: "3", title: "tea",status: TasksStatusesEnum.InProgress,
+                todoListId:  "todolistId2",
+                startDate: '',
+                deadline: '',
+                order: 1,
+                addedDate: '',
+                priority: TasksPrioritiesEnum.Low,
+                description: '',
+                completed: false}
         ]
     };
 })
@@ -43,18 +94,18 @@ test('correct task should be added to correct array', () => {
     expect(endState["todolistId2"].length).toBe(4);
     expect(endState["todolistId2"][0].id).toBeDefined();
     expect(endState["todolistId2"][0].title).toBe("juce");
-    expect(endState["todolistId2"][0].isDone).toBe(false);
+    expect(endState["todolistId2"][0].completed).toBe(TasksStatusesEnum.New);
 })
 
 test('status of specified task should be changed', () => {
 
 
-    const action = changeTaskStatusAC("2", false, "todolistId2");
+    const action = changeTaskStatusAC("2", TasksStatusesEnum.InProgress, "todolistId2");
 
     const endState = tasksReducer(startState, action)
 
-    expect(endState["todolistId2"][1].isDone).toBeFalsy();
-    expect(endState["todolistId1"][1].isDone).toBeTruthy();
+    expect(endState["todolistId2"][1].status).toBe(TasksStatusesEnum.InProgress);
+    expect(endState["todolistId1"][1].status).toBe(TasksStatusesEnum.Complete);
 });
 
 test('title of specified task should be changed', () => {
