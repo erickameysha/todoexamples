@@ -59,7 +59,7 @@ type GetTasksResponse = {
     items: TaskType[]
 
 }
-type UpdateTaskModuleType = {
+export type UpdateTaskModuleType = {
     title: string
     description: string
     status: number
@@ -88,10 +88,10 @@ export const todolistsAPI = {
         return instance.delete<ResponseType>(`todo-lists/${todolistID}/tasks/${taskID}`, setting)
     },
     createTask(todolistID: string, title: string) {
-        return instance.post<ResponseType<TaskType>>(`todo-lists/${todolistID}/tasks`, {title}, setting)
+        return instance.post<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistID}/tasks`, {title}, setting)
     },
     updateTask(todolistID: string, taskID: string, module: UpdateTaskModuleType) {
-        return instance.put(`todo-lists/${todolistID}/tasks/${taskID}`, module, setting)
+        return instance.put<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistID}/tasks/${taskID}`, module, setting)
     },
 
 }
