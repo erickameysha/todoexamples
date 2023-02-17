@@ -5,30 +5,35 @@ import IconButton from "@mui/material/IconButton/IconButton";
 import {Delete} from "@mui/icons-material";
 
 import {useDispatch} from "react-redux";
-import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
+import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, removeTasksTC} from "./state/tasks-reducer";
 import {TasksStatusesEnum, TaskType} from "./stories/todolists-api";
+import {useAppDispatch} from "./state/store";
 
 
 export type TaskPropsType = {
     task: TaskType
-todolistID:string
+    todolistID: string
 }
-const TaskWithRedux = memo(({task,todolistID}: TaskPropsType) => {
+const TaskWithRedux = memo(({task, todolistID}: TaskPropsType) => {
 
     // console.log('task')
-    let {id,status,title} = {...task}
+    let {id, status, title} = {...task}
 
-    const dispatch = useDispatch()
-    const onClickHandler = () => dispatch(removeTaskAC(id,todolistID))
+    const dispatch = useAppDispatch()
+    const onClickHandler = () => {
+
+        return (
+            dispatch(removeTasksTC(todolistID, id,)))
+    }
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked;
-      dispatch( changeTaskStatusAC(id, newIsDoneValue ? TasksStatusesEnum.Complete : TasksStatusesEnum.New,todolistID));
+        dispatch(changeTaskStatusAC(id, newIsDoneValue ? TasksStatusesEnum.Complete : TasksStatusesEnum.New, todolistID));
     }
     const onTitleChangeHandler = (newValue: string) => {
-        dispatch(changeTaskTitleAC(id, newValue,todolistID));
+        dispatch(changeTaskTitleAC(id, newValue, todolistID));
     }
 
-    return <div key={task.id}  className={status === TasksStatusesEnum.Complete ? "is-done" : ""}>
+    return <div key={task.id} className={status === TasksStatusesEnum.Complete ? "is-done" : ""}>
         <IconButton onClick={onClickHandler}>
             <Delete/>
         </IconButton>

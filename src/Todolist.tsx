@@ -1,4 +1,4 @@
-import React, {memo, useCallback} from 'react';
+import React, {memo, useCallback, useEffect} from 'react';
 import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
 import IconButton from "@mui/material/IconButton/IconButton";
@@ -7,13 +7,16 @@ import {Button} from "@mui/material";
 import TaskWithRedux from "./TaskWithRedux";
 import {TasksStatusesEnum, TaskType} from "./stories/todolists-api";
 import {FilterValuesType} from "./state/todolists-reducer";
+import {useAppDispatch} from "./state/store";
+import {getTasksTC} from "./state/tasks-reducer";
+import {Task} from "./Task";
 
 
 type PropsType = {
     id: string
     title: string
     tasks: Array<TaskType>
-    removeTask: (taskId: string, todolistId: string) => void
+    removeTask: ( todolistId: string,taskId: string,) => void
     changeFilter: (value: FilterValuesType, todolistId: string,) => void
     addTask: (title: string, todolistId: string) => void
     changeTaskStatus: (id: string, status: TasksStatusesEnum, todolistId: string) => void
@@ -24,7 +27,11 @@ type PropsType = {
 }
 
 export const Todolist = memo((props: PropsType) => {
+    const dispatch = useAppDispatch()
 
+    useEffect(()=>{
+        dispatch(getTasksTC(props.id))
+    },[])
     const addTask = useCallback((title: string) => {
         props.addTask(title, props.id);
     }, [props.addTask, props.id])
@@ -59,14 +66,11 @@ export const Todolist = memo((props: PropsType) => {
         <AddItemForm addItem={addTask}/>
         <div>
             {
-                tasks.map(t => {
-                    return <TaskWithRedux
-                        todolistID={props.id}
-                        key={t.id}
-                        task={t}
-
-                    />
-                })
+                tasks.map(t => <Task key={t.id} task={t} todolistId={props.id}
+                                     removeTask={props.removeTask}
+                                     changeTaskTitle={props.changeTaskTitle}
+                                     changeTaskStatus={props.changeTaskStatus}
+                />)
             }
         </div>
         <div>
