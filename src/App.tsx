@@ -19,7 +19,7 @@ import {TasksPrioritiesEnum, TasksStatusesEnum, TaskType} from "./stories/todoli
 export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
-
+// test
 
 function App() {
     let todolistId1 = v1();
