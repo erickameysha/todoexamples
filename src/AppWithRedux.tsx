@@ -7,7 +7,7 @@ import {Menu} from "@mui/icons-material";
 import {
     addTodolistAC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC, createTodolistTC, deleteTodolistTC, FilterValuesType, getTodolistTC,
+    changeTodolistTitleAC, changeTodolistTitleTC, createTodolistTC, deleteTodolistTC, FilterValuesType, getTodolistTC,
     removeTodolistAC, TodolistDomainType,
 } from "./state/todolists-reducer";
 import {
@@ -15,7 +15,7 @@ import {
     changeTaskStatusAC,
     changeTaskTitleAC, createTaskTC,
     removeTaskAC,
-    removeTasksTC, updateTaskTC
+    removeTasksTC, updateTaskTC, updateTaskTitleTC
 } from "./state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch, useAppSelector} from "./state/store";
@@ -51,11 +51,11 @@ function AppWithRedux() {
     }, [dispatch])
 
     const changeStatus=useCallback(( todolistId: string, id: string,status: TasksStatusesEnum,)=> {
-        dispatch(updateTaskTC(todolistId,id, status ))
+        dispatch(updateTaskTC(todolistId,id, {status} ))
     },[dispatch])
 
     const changeTaskTitle=useCallback((id: string, newTitle: string, todolistId: string)=> {
-        dispatch(changeTaskTitleAC(id, newTitle, todolistId))
+        dispatch(updateTaskTC(todolistId,id,  {title: newTitle},))
     },[dispatch])
 
 
@@ -73,7 +73,7 @@ function AppWithRedux() {
 
     const changeTodolistTitle=useCallback((id: string, title: string)=> {
 
-        dispatch(changeTodolistTitleAC(id, title))
+        dispatch(changeTodolistTitleTC(id, title))
     },[dispatch])
 
     const addTodolist = useCallback((title: string) => {

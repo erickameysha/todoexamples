@@ -62,8 +62,8 @@ type GetTasksResponse = {
 export type UpdateTaskModuleType = {
     title: string
     description: string
-    status: number
-    priority: number
+    status: TasksStatusesEnum
+    priority: TasksPrioritiesEnum
     startDate: string
     deadline: string
 }
