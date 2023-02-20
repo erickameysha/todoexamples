@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect} from 'react';
 import './App.css';
-import {AddItemForm} from './AddItemForm';
+import {AddItemForm} from './components/AddItemForm';
 import {AppBar, Button, Container, Grid, Paper, Toolbar, Typography} from "@mui/material";
 import IconButton from "@mui/material/IconButton/IconButton";
 import {Menu} from "@mui/icons-material";
@@ -10,13 +10,7 @@ import {
     changeTodolistTitleAC, changeTodolistTitleTC, createTodolistTC, deleteTodolistTC, FilterValuesType, getTodolistTC,
     removeTodolistAC, TodolistDomainType,
 } from "./state/todolists-reducer";
-import {
-    addTaskAC,
-    changeTaskStatusAC,
-    changeTaskTitleAC, createTaskTC,
-    removeTaskAC,
-    removeTasksTC, updateTaskTC, updateTaskTitleTC
-} from "./state/tasks-reducer";
+import {createTaskTC, removeTasksTC, updateTaskTC,} from "./state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch, useAppSelector} from "./state/store";
 import {TasksStatusesEnum, TaskType} from "./stories/todolists-api";

@@ -1,4 +1,10 @@
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from './tasks-reducer';
+import {
+    addTaskAC,
+    changeTaskTitleAC,
+    createTaskTC,
+    removeTaskAC,
+    tasksReducer, updateTaskAC, updateTaskTC
+} from './tasks-reducer';
 import {TasksStateType} from '../App';
 import {addTodolistAC, removeTodolistAC} from './todolists-reducer';
 import {TasksPrioritiesEnum, TasksStatusesEnum} from "../stories/todolists-api";
@@ -87,7 +93,7 @@ test('correct task should be deleted from correct array', () => {
 
 test('correct task should be added to correct array', () => {
 
-    const action = addTaskAC("juce", "todolistId2");
+    const action = createTaskTC("juce", "todolistId2");
     const endState = tasksReducer(startState, action)
 
     expect(endState["todolistId1"].length).toBe(3);
@@ -100,7 +106,7 @@ test('correct task should be added to correct array', () => {
 test('status of specified task should be changed', () => {
 
 
-    const action = changeTaskStatusAC("2", TasksStatusesEnum.InProgress, "todolistId2");
+    const action = updateTaskAC("2",{status: TasksStatusesEnum.InProgress}, "todolistId2");
 
     const endState = tasksReducer(startState, action)
 
@@ -111,7 +117,7 @@ test('status of specified task should be changed', () => {
 test('title of specified task should be changed', () => {
 
 
-    const action = changeTaskTitleAC("2", "Milkyway", "todolistId2");
+    const action = updateTaskAC("2", {title:"Milkyway"}, "todolistId2");
     const endState = tasksReducer(startState, action)
 
     expect(endState["todolistId2"][1].title).toBe("Milkyway");
